@@ -20,49 +20,63 @@
 <link rel="import" href="../../bower_components/px-icon-set/px-icon-set.html">
 
 <dom-module id="seed-app">
-  <template>
+    <template>
+        <!-- apply imported seed app style module -->
+        <style include="seed-app-styles">
+            px-branding-bar {
+                padding-left: 4rem;
+            }
+            #abcded {
+                padding-left: 4rem;
+                /*background-color: whitesmoke;*/
+            }
+            px-view {
+                background-color: white;
+                background: white;
+            }
 
-    <!-- apply imported seed app style module -->
-    <style include="seed-app-styles"></style>
+        </style>
 
-    <px-branding-bar application-title="[[appHeader]]"></px-branding-bar>
+        <px-branding-bar application-title="[[appHeader]]"></px-branding-bar>
 
-    <div class="viewport">
-      <app-location
-        route="{{route}}"
-        use-hash-as-path>
-      </app-location>
-      
-      <px-app-route
-        id="starterAppRoute"
-        route="{{route}}"
-        use-hash-as-path
-        update-nav-route
-        nav-route="{{navRoute}}">
-      </px-app-route>
+        <div  id="abcded" class="viewport">
+          <app-location
+            route="{{route}}"
+            use-hash-as-path>
+          </app-location>
 
-      <div class="flex flex--row flex--justify">
-        <div class="u-3/4-desk u-1/1-palm">
-          <px-app-nav vertical bleed
-            class="navbar"
-            items="{{navItems}}"
-            selected-route="{{navRoute}}">
-          </px-app-nav>
-        </div>
-        <div class="u-1/1-palm">
-          <div class="flex flex--row flex--right">
-            <px-login class="u-pr u-pt"></px-login>
+          <px-app-route
+            id="starterAppRoute"
+            route="{{route}}"
+            use-hash-as-path
+            update-nav-route
+            nav-route="{{navRoute}}">
+          </px-app-route>
+
+          <div class="flex flex--row flex--justify">
+            <div class="u-3/4-desk u-1/1-palm">
+              <px-app-nav vertical
+                class="navbar"
+                items="{{navItems}}"
+                selected-route="{{navRoute}}">
+              </px-app-nav>
+            </div>
+            <div class="u-1/1-palm">
+              <div class="flex flex--row flex--right">
+                <px-login class="u-pr u-pt"></px-login>
+              </div>
+            </div>
           </div>
+
+          <main role="main" style="background-color: white">
+            <px-view id="view" element-href="{{getHref(navRoute)}}" active load-async></px-view>
+          </main>
         </div>
-      </div>
 
-      <main role="main">
-        <px-view id="view" element-href="{{getHref(navRoute)}}" active load-async></px-view>
-      </main>
-    </div>
+        <iron-ajax id="configAjaxEl" url="/config" auto></iron-ajax>
+    </template>
 
-    <iron-ajax id="configAjaxEl" url="/config" auto></iron-ajax>
-  </template>
+
   <script>
     Polymer({
       is: 'seed-app',
@@ -70,7 +84,8 @@
       properties: {
 
         appHeader: {
-          type: String
+          type: String,
+            value: "My Todo App"
         },
 
         //Global application object
@@ -94,12 +109,22 @@
                 "label": "Asset Monitoring",
                 "id": "rmd",
                 "icon": "px-fea:analytics"
-              },
-              {
+              }
+              ,{
                 "label": "About",
                 "id": "about",
                 "icon": "px-com:message"
               }
+                ,{
+                    "label": "TodoList",
+                    "id": "todolist",
+                    "icon": "px-nav:list-view"
+                }
+                ,{
+                    "label": "Create",
+                    "id": "todocreate",
+                    "icon": "px-utl:edit"
+                }
               //Uncomment this block to show the Simple Asset navigation item on the menu.
               /* // asset-nav-item
               ,{
@@ -120,19 +145,19 @@
       ready: function(){
         if (!this.$.starterAppRoute.navRoute) {
           // set default route
-          this.$.starterAppRoute.navRoute = ['rmd'];
+          this.$.starterAppRoute.navRoute = ['todoabout'];
         }
         // console.log('ready. route: ', this.$.starterAppRoute.navRoute);
         this.$.configAjaxEl.addEventListener('response', function(evt) {
           // We're getting some global config from the server.
           console.log('config', evt.detail.response);
-          this.appHeader = evt.detail.response.appHeader;
+          // this.appHeader = evt.detail.response.appHeader;
           this.$.view.elementData = evt.detail.response;
         }.bind(this));
       },
 
       getHref: function(navRoute) {
-        var navRoute = this.$.starterAppRoute.navRoute || ['rmd'];
+        var navRoute = this.$.starterAppRoute.navRoute || ['todoabout'];
         return '/elements/views/' + navRoute[0] + '-view.html';
       }
 

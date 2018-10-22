@@ -12,12 +12,12 @@
 
 // Objects
 :host {
-    background: $gray16;
+  background: $gray16;
 }
 
 #refreshTableBtn {
-    margin-top: 4px;
-    cursor: pointer;
+  margin-top: 4px;
+  cursor: pointer;
 }
 
 #exportBtn {
@@ -40,3 +40,32 @@ $inuit-enable-paddings : true;
 $inuit-enable-paddings--huge : true;
 @import "../../bower_components/px-spacing-design/_trumps.spacing.scss";
 @import "../../bower_components/px-widths-responsive-design/_trumps.widths-responsive.scss";
+
+
+// create, update, delete todolist buttons
+$inuit-enable-btn--primary : true;
+$inuit-enable-btn--disabled : true;
+@import '../../bower_components/px-buttons-design/_objects.buttons.scss';
+
+div.markdown-html > h1 {
+  font-weight: normal;
+  font-size: 2.6667rem;
+  color: rgb(9, 129, 156);
+}
+div.markdown-html > h2 {
+  margin-top: 0;
+  font-size: 1.86667rem;
+  font-weight: normal;
+}
+px-card {
+  background: white;
+  color: rgb(44, 64, 76);
+  --px-card-header-color: black;
+}
+px-data-table {
+  --px-data-table-header-background-color: yellow;
+}
+
+$inuit-enable-input--regular : true;
+$inuit-enable-validation-states : true;
+@import '../../bower_components/px-forms-design/_base.forms.scss';

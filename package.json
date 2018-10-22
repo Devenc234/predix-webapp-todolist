@@ -43,6 +43,7 @@
     "sinon": "^1.17.7"
   },
   "dependencies": {
+    "@polymer/iron-form": "^3.0.1",
     "body-parser": "^1.15.2",
     "compression": "^1.6.2",
     "connect-redis": "^3.2.0",
