@@ -47,13 +47,17 @@
     "px-layout-design": "^1.0.0",
     "px-headings-design": "^1.0.3",
     "px-meta-lists-design": "^1.0.1",
-    "px-forms-design": "^2.0.6"
+    "px-forms-design": "^2.0.6",
+    "px-flexbox-design": "^1.0.3",
+    "iron-pages": "1.0.9"
   },
   "resolutions": {
     "px-app-helpers": "^2.0.0",
-    "webcomponentsjs": "^0.7.24"
+    "webcomponentsjs": "^0.7.24",
+    "iron-resizable-behavior": "1 - 2"
   },
   "devDependencies": {
-    "px-buttons-design": "^2.0.8"
+    "px-buttons-design": "^2.0.8",
+    "px-forms-design": "^2.1.2"
   }
 }

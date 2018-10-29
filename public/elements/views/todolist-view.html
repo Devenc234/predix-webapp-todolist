@@ -3,77 +3,77 @@
 <link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
 <link rel="import" href="../../bower_components/marked-element/marked-element.html">
 <link rel="import" href="../../bower_components/px-data-table/px-data-table.html"/>
-<link rel="import" href="./todolist-view-styles.html"/>
+<link rel="import" href="../../bower_components/iron-pages/iron-pages.html"/>
+<link rel="import" href="todolist-view-styles.html"/>
 
 <dom-module id="todolist-view">
   <template>
     <style include="todolist-view-styles"></style>
-
-
-
-    <px-card id="myCard" header-text="About this application">
-      <div >
-        <marked-element id="aboutContentMarkdown" markdown="">
-          <div class="markdown-html" ></div>
-        </marked-element>
-      </div>
       <px-data-table id="mytodotable" table-data={{mytabledata}}
                      language="en"
                      sortable
                      selectable
                      single-select>
-        <px-data-table-column name='first'></px-data-table-column>
-        <px-data-table-column name='sec'></px-data-table-column>
-        <px-data-table-column name='th'></px-data-table-column>
-        <px-data-table-column name='last'></px-data-table-column>
-        <px-data-table-column name='email'></px-data-table-column>
-
-        </px-data-table-column>
+        <px-data-table-column name='title'></px-data-table-column>
+        <px-data-table-column name='content'></px-data-table-column>
       </px-data-table>
 
       <px-card>
-        <button id="myTodoCreateButton" class="btn btn--primary">Create</button>
-        <button id="myTodoUpdateButton"class="btn btn--primary">Update</button>
-        <button id="myTodoDeleteButton" class="btn btn--primary">Delete</button>
+        <button id="myTodoNewButton"  on-click="newTodo" class="btn ">New</button>
+        <button id="myTodoUpdateButton" on-click="updateTodo" class="btn ">Update</button>
       </px-card>
 
-    </px-card>
-
-
-
-      <input id="input1" placeholder="Type something..." class="text-input input--regular">
-
-    <!--<iron-ajax id="aboutContentAjaxEl" handle-as="text"></iron-ajax>-->
   </template>
   <script>
     Polymer({
       is: 'todolist-view',
       properties: {
-          mytabledata:{
-              type: Object,
-              value: [{"first":"Valentine","last":"Meyer","email":"valentinemeyer@scentric.com"},{"first":"Silva","last":"Alexander"},{"first":"Silva","last":"Alexander","email":"valentinemeyer@scentric.com"}]
+          page:{
+            type: String,
+              notify: true
           },
-          isRowSelected: {
-              type: Boolean,
-              value: false
-          }
+          mytabledata:{
+              type: Array,
+              notify: true
+          },
+          clickedrowindex: {
+              type: Number,
+              notify: true,
+              observer: 'rowchanged'
+          },
       },
+
+        rowchanged: function(){
+          console.log("rowchanged",this.clickedrowindex);
+        },
+
+
       ready: function() {
-        var that = this;
+        var updateButton = this.$.myTodoUpdateButton;
+        var newButton = this.$.myTodoNewButton;
         this.$.mytodotable.addEventListener("px-row-click", function(e) {
-            var clickedRow = e.detail.row;
-            console.log("Row clicked: ", clickedRow);
+            var temp = {};
+            temp.title = e.detail.row.row.title.value;
+            temp.content = e.detail.row.row.content.value;
+            this.clickedrowindex = e.detail.row.row.dataIndex;
+            // this.set('clickedrowindex',e.detail.row.row.dataIndex);
+            console.log('row clicked',this.clickedrowindex);
+            if(e.detail.row._selected){
+                newButton.classList.add("btn--disabled");
+                updateButton.classList.remove("btn--disabled");
+            } else {
+                updateButton.classList.add("btn--disabled");
+                newButton.classList.remove("btn--disabled");
+            }
         });
+        updateButton.classList.add("btn--disabled");
+      }
+      ,newTodo: function (e) {
+          this.page = "create";
+      }
 
-        this.$.myTodoUpdateButton.hidden = false;
-
-
-        // this.$.aboutContentAjaxEl.url = "/docs";
-        //
-        // this.$.aboutContentAjaxEl.addEventListener('response', function(evt) {
-        //   that.$.aboutContentMarkdown.markdown = evt.detail.response;
-        // });
-        // this.$.aboutContentAjaxEl.generateRequest();
+      ,updateTodo: function (e) {
+          this.page = "update";
       }
 
     });

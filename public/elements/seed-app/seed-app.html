@@ -28,12 +28,18 @@
             }
             #abcded {
                 padding-left: 4rem;
-                /*background-color: whitesmoke;*/
             }
             px-view {
                 background-color: white;
                 background: white;
             }
+
+            px-app-nav{
+                --px-app-nav-background-color: rgba(8, 41, 57,0.5);
+                /*--px-app-nav-item-background-color--collapsed: pink;*/
+                --px-app-nav-item-background-color--empty: yellow;
+            }
+
 
         </style>
 
@@ -105,26 +111,37 @@
           type: Array,
           value: function() {
             return [
-              {
-                "label": "Asset Monitoring",
-                "id": "rmd",
-                "icon": "px-fea:analytics"
-              }
-              ,{
-                "label": "About",
-                "id": "about",
-                "icon": "px-com:message"
-              }
-                ,{
-                    "label": "TodoList",
-                    "id": "todolist",
-                    "icon": "px-nav:list-view"
+              // {
+              //   "label": "Asset Monitoring",
+              //   "id": "rmd",
+              //   "icon": "px-fea:analytics"
+              // }
+              // ,{
+              //   "label": "About",
+              //   "id": "about",
+              //   "icon": "px-com:message"
+              // }
+                {
+                    "label": "Main",
+                    "id": "todomain",
+                    "icon": "px-fea:analytics"
                 }
-                ,{
-                    "label": "Create",
-                    "id": "todocreate",
-                    "icon": "px-utl:edit"
-                }
+                // ,{
+                //     "label": "TodoList",
+                //     "id": "todolist",
+                //     "icon": "px-nav:list-view"
+                // }
+                // ,{
+                //     "label": "Create",
+                //     "id": "todocreate",
+                //     "icon": "px-utl:add"
+                // }
+                // ,{
+                //     "label": "Update",
+                //     "id": "todoupdate",
+                //     "icon": "px-utl:edit"
+                // }
+
               //Uncomment this block to show the Simple Asset navigation item on the menu.
               /* // asset-nav-item
               ,{
@@ -145,7 +162,7 @@
       ready: function(){
         if (!this.$.starterAppRoute.navRoute) {
           // set default route
-          this.$.starterAppRoute.navRoute = ['todoabout'];
+          this.$.starterAppRoute.navRoute = ['todomain'];
         }
         // console.log('ready. route: ', this.$.starterAppRoute.navRoute);
         this.$.configAjaxEl.addEventListener('response', function(evt) {
@@ -157,7 +174,7 @@
       },
 
       getHref: function(navRoute) {
-        var navRoute = this.$.starterAppRoute.navRoute || ['todoabout'];
+        var navRoute = this.$.starterAppRoute.navRoute || ['todomain'];
         return '/elements/views/' + navRoute[0] + '-view.html';
       }
 

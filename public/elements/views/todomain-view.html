@@ -1,0 +1,68 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/px-card/px-card.html">
+<link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../../bower_components/marked-element/marked-element.html">
+<link rel="import" href="../../bower_components/px-data-table/px-data-table.html"/>
+<link rel="import" href="../../bower_components/iron-pages/iron-pages.html"/>
+<link rel="import" href="./todolist-view.html"/>
+<link rel="import" href="todocreate-view.html"/>
+<link rel="import" href="todolist-view-styles.html"/>
+<link rel="import" href="todoupdate-view.html"/>
+
+<dom-module id="todomain-view">
+    <template>
+        <style include="todolist-view-styles"></style>
+
+            <iron-pages selected="[[selectedPage]]" attr-for-selected="name">
+                <todolist-view name="list"
+                               page={{selectedPage}}
+                               mytabledata="{{tododata}}"
+                               clickedrowindex="{{rowindex}}"></todolist-view>
+                <todocreate-view name="create"
+                                 page={{selectedPage}}
+                                 mytabledata="{{tododata}}"></todocreate-view>
+                <todoupdate-view name="update"
+                                 page={{selectedPage}}
+                                 mytabledata="{{tododata}}"
+                                 clickedrowindex="{{rowindex}}"></todoupdate-view>
+            </iron-pages>
+
+
+    </template>
+    <script>
+        Polymer({
+            is: 'todomain-view',
+            properties: {
+                selectedPage: {
+                    type: String,
+                    value: "list"
+                },
+                tododata:{
+                    type: Array, observer :'dataChanged',
+                    notify: true
+                },
+                rowindex: {
+                    type: Number,
+                    notify: true,
+                    observer: 'rowchanged'
+                }
+            },
+
+            ready: function() {
+                var temp = [{title: "abcd", content: "I am abcd"},
+                            {title: "Silva",content: "I am David Silva"},
+                            {title: "Gooner", content: "YNWA"}];
+                this.tododata = temp;
+                this.rowindex = 0;
+            },
+
+            dataChanged: function () {
+                console.log(JSON.stringify(this.tododata, undefined, 4));
+            },
+
+            rowchanged: function(){
+                console.log('rowchanged',this.rowindex);
+            }
+        });
+    </script>
+</dom-module>

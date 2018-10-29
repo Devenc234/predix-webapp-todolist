@@ -4,16 +4,16 @@
 <link rel="import" href="../../bower_components/marked-element/marked-element.html">
 <link rel="import" href="todocreate-view-styles.html"/>
 
-<dom-module id="todocreate-view">
+<dom-module id="todoupdate-view">
     <template>
         <style include="todocreate-view-styles"></style>
 
         <div>
-            <h1 style="font-family: 'Times New Roman'">Enter details for new Todo</h1>
+            <h1 style="font-family: 'Times New Roman'">Update the details of Todo</h1>
         </div>
 
         <div class="flex flex--col flex--left flex--middle">
-            <form>
+            <form ad="adddeafaultdata">
                 <label for="notetitle" class="">Title</label>
                 <input class="text-input input--small" id="notetitle" type="text" placeholder="Title of the note">
                 <br>
@@ -23,7 +23,7 @@
                 <br>
                 <br>
                 <div class="btn-group">
-                    <button class="btn btn--call-to-action" id="notesubmitbutton" on-click="formsubmit">Create</button>
+                    <button class="btn" id="notesubmitbutton" on-click="formsubmit">Update</button>
                     <button class="btn" id="notecancelbutton" on-click="formcancel">Cancel</button>
                 </div>
             </form>
@@ -33,32 +33,39 @@
 
     <script>
         Polymer({
-            is: 'todocreate-view',
+            is: 'todoupdate-view',
             properties: {
                 page:{
                     type: String,
                     notify: true
                 },
                 mytabledata:{
-                    type: Array,
+                    type: Object
+                },
+                clickedrowindex: {
                     notify: true
-                }
+                },
             },
+            ready: function() {
+                console.log("ready:",this.clickedrowindex);
+                if(this.mytabledata){
+                    this.$.notetitle.value = this.mytabledata[this.clickedrowindex].title;
+                    this.$.notecontent.value = this.mytabledata[this.clickedrowindex].content;
+                }
 
-            formsubmit: function(e, detail) {
+            },
+            formsubmit: function () {
                 var temp = {};
                 temp.title = this.$.notetitle.value;
                 temp.content = this.$.notecontent.value;
-                this.$.notetitle.value = "";
-                this.$.notecontent.value = "";
-                this.push('mytabledata', temp);
+                console.log("rowindex:",this.clickedrowindex);
+                this.push('mytabledata',temp);
                 this.page = "list";
             },
 
             formcancel: function () {
                 this.page = 'list';
             }
-
         });
     </script>
 </dom-module>

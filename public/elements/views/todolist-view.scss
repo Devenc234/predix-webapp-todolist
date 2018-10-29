@@ -12,7 +12,8 @@
 
 // Objects
 :host {
-  background: $gray16;
+  //background: $gray16;
+  background: white;
 }
 
 #refreshTableBtn {
@@ -64,6 +65,8 @@ px-card {
 }
 px-data-table {
   --px-data-table-header-background-color: yellow;
+  --px-data-table-cell-text-color--selected: black ;
+  --px-data-table-cell-text-color: black ;
 }
 
 $inuit-enable-input--regular : true;
