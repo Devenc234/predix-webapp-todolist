@@ -12,3 +12,6 @@ build
 .github/
 .vscode/
 predix-scripts/
+
+
+.idea
