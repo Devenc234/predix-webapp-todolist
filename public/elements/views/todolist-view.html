@@ -4,6 +4,7 @@
 <link rel="import" href="../../bower_components/marked-element/marked-element.html">
 <link rel="import" href="../../bower_components/px-data-table/px-data-table.html"/>
 <link rel="import" href="../../bower_components/iron-pages/iron-pages.html"/>
+<link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html"/>
 <link rel="import" href="todolist-view-styles.html"/>
 
 <dom-module id="todolist-view">
@@ -14,14 +15,41 @@
                      sortable
                      selectable
                      single-select>
-        <px-data-table-column name='title'></px-data-table-column>
-        <px-data-table-column name='content'></px-data-table-column>
       </px-data-table>
 
       <px-card>
-        <button id="myTodoNewButton"  on-click="newTodo" class="btn ">New</button>
-        <button id="myTodoUpdateButton" on-click="updateTodo" class="btn ">Update</button>
+        <button id="myTodoNewButton"  on-click="newTodo" class="btn btn--primary">New</button>
+        <button id="myTodoUpdateButton" on-click="updateTodo" class="btn btn--primary">Update</button>
       </px-card>
+
+    <!--<div id="myquote">-->
+      <!--<span>Title: {{res.title}}</span>-->
+      <!--<br>-->
+      <!--<span>Content: {{res.content}}</span>-->
+    <!--</div>-->
+
+    <!--<div id="myrepos">-->
+      <!--<template is="dom-repeat" items="{{repositories}}">-->
+        <!--<span>-->
+          <!--Name: <a href="{{item.html_url}}">{{item.name}}</a>-->
+        <!--</span>-->
+        <!--<br>-->
+      <!--</template>-->
+    <!--</div>-->
+
+
+    <iron-ajax
+      auto
+      url="http://localhost:9000/api/randomquotes"
+      handle-as = "json"
+      last-response = "{{res}}">
+    </iron-ajax>
+    <iron-ajax
+            auto
+            url="https://api.github.com/users/devenc234/repos"
+            handle-as = "json"
+            last-response = "{{repositories}}">
+    </iron-ajax>
 
   </template>
   <script>
@@ -34,23 +62,35 @@
           },
           mytabledata:{
               type: Array,
-              notify: true
+              // notify: true
           },
           clickedrowindex: {
               type: Number,
-              notify: true,
+              // notify: true,
               observer: 'rowchanged'
           },
+          todo: {
+              type: Object,
+              notify: true
+          },
+          res: {
+              type: Object
+          },
+          repositories: {
+              type: Object
+          }
       },
 
-        rowchanged: function(){
-          console.log("rowchanged",this.clickedrowindex);
-        },
+      rowchanged: function(){
+        console.log("rowchanged",this.clickedrowindex);
+      },
 
 
       ready: function() {
         var updateButton = this.$.myTodoUpdateButton;
         var newButton = this.$.myTodoNewButton;
+        updateButton.classList.add("btn--disabled");
+
         this.$.mytodotable.addEventListener("px-row-click", function(e) {
             var temp = {};
             temp.title = e.detail.row.row.title.value;
@@ -65,8 +105,8 @@
                 updateButton.classList.add("btn--disabled");
                 newButton.classList.remove("btn--disabled");
             }
-        });
-        updateButton.classList.add("btn--disabled");
+            console.log("resp",this.repositories);
+        }.bind(this));
       }
       ,newTodo: function (e) {
           this.page = "create";
@@ -74,6 +114,7 @@
 
       ,updateTodo: function (e) {
           this.page = "update";
+          this.todo = this.mytabledata[this.clickedrowindex];
       }
 
     });

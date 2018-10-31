@@ -9,21 +9,28 @@
         <style include="todocreate-view-styles"></style>
 
         <div>
-            <h1 style="font-family: 'Times New Roman'">Update the details of Todo</h1>
+            <h1 style="font-family:'Times New Roman'">Update the details of Todo</h1>
         </div>
 
         <div class="flex flex--col flex--left flex--middle">
             <form ad="adddeafaultdata">
                 <label for="notetitle" class="">Title</label>
-                <input class="text-input input--small" id="notetitle" type="text" placeholder="Title of the note">
+                <input class="text-input input--small"
+                       style="color: black"
+                       id="notetitle" type="text" placeholder="Title of the note"
+                       value="{{todo.title::input}}"
+                >
                 <br>
                 <br>
                 <label for="notecontent" class="">Content</label>
-                <input class="text-input input--large" id="notecontent" type="text" placeholder="Content of the note">
+                <input class="text-input input--large"
+                       value="{{todo.content::input}}"
+                       style="color: black"
+                       id="notecontent" type="text" placeholder="Content of the note">
                 <br>
                 <br>
                 <div class="btn-group">
-                    <button class="btn" id="notesubmitbutton" on-click="formsubmit">Update</button>
+                    <button class="btn btn--primary" id="notesubmitbutton" on-click="formsubmit">Update</button>
                     <button class="btn" id="notecancelbutton" on-click="formcancel">Cancel</button>
                 </div>
             </form>
@@ -45,21 +52,19 @@
                 clickedrowindex: {
                     notify: true
                 },
-            },
-            ready: function() {
-                console.log("ready:",this.clickedrowindex);
-                if(this.mytabledata){
-                    this.$.notetitle.value = this.mytabledata[this.clickedrowindex].title;
-                    this.$.notecontent.value = this.mytabledata[this.clickedrowindex].content;
+                todo: {
+                    type: Object,
+                    notify: true
                 }
 
             },
+
             formsubmit: function () {
-                var temp = {};
-                temp.title = this.$.notetitle.value;
-                temp.content = this.$.notecontent.value;
-                console.log("rowindex:",this.clickedrowindex);
-                this.push('mytabledata',temp);
+                // var temp = {};
+                // temp.title = this.$.notetitle.value;
+                // temp.content = this.$.notecontent.value;
+                console.log("rowindex:",this.todo);
+                this.splice('mytabledata', this.clickedrowindex, 1, this.todo);
                 this.page = "list";
             },
 

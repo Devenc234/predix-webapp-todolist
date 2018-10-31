@@ -9,21 +9,22 @@
         <style include="todocreate-view-styles"></style>
 
         <div>
-            <h1 style="font-family: 'Times New Roman'">Enter details for new Todo</h1>
+            <h1 style="font-family:'Times New Roman'">Enter details for new Todo</h1>
         </div>
 
         <div class="flex flex--col flex--left flex--middle">
             <form>
                 <label for="notetitle" class="">Title</label>
-                <input class="text-input input--small" id="notetitle" type="text" placeholder="Title of the note">
+                <input class="text-input"
+                        id="notetitle" placeholder="Title of the note">
                 <br>
                 <br>
                 <label for="notecontent" class="">Content</label>
-                <input class="text-input input--large" id="notecontent" type="text" placeholder="Content of the note">
+                <input class="text-input" id="notecontent" placeholder="Content of the note">
                 <br>
                 <br>
                 <div class="btn-group">
-                    <button class="btn btn--call-to-action" id="notesubmitbutton" on-click="formsubmit">Create</button>
+                    <button class="btn btn--primary" id="notesubmitbutton" on-click="formsubmit">Create</button>
                     <button class="btn" id="notecancelbutton" on-click="formcancel">Cancel</button>
                 </div>
             </form>
@@ -42,6 +43,10 @@
                 mytabledata:{
                     type: Array,
                     notify: true
+                },
+                todo: {
+                    type: Object,
+                    notify: true
                 }
             },
 
@@ -51,7 +56,11 @@
                 temp.content = this.$.notecontent.value;
                 this.$.notetitle.value = "";
                 this.$.notecontent.value = "";
-                this.push('mytabledata', temp);
+                this.todo = {
+                    title: temp.title,
+                    content: temp.content
+                }
+                this.push('mytabledata', this.todo);
                 this.page = "list";
             },
 

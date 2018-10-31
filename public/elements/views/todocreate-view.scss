@@ -1,5 +1,5 @@
 // Settings
-@import "../../bower_components/px-colors-design/_settings.colors.scss";
+ @import "../../bower_components/px-colors-design/_settings.colors.scss";
 
 // Generic
 
@@ -12,8 +12,8 @@
 
 // Objects
 :host {
-  //background: $gray16;
-  background: white;
+  background: $gray16;
+  //background: white;
 }
 
 
@@ -24,11 +24,8 @@ $inuit-enable-btn--disabled : true;
 
 
 $inuit-enable-input--regular : true;
-$inuit-enable-validation-states : true;
 @import '../../bower_components/px-forms-design/_base.forms.scss';
 
-$inuit-enable-input--small : true;
-@import '../../bower_components/px-forms-design/_base.forms.scss';
 
 //$inuit-flexbox-namespace : true;
 @import '../../bower_components/px-flexbox-design/_base.flexbox.scss';

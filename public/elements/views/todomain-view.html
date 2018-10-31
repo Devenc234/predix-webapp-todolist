@@ -17,13 +17,16 @@
                 <todolist-view name="list"
                                page={{selectedPage}}
                                mytabledata="{{tododata}}"
+                               todo="{{todo}}"
                                clickedrowindex="{{rowindex}}"></todolist-view>
                 <todocreate-view name="create"
                                  page={{selectedPage}}
+                                 todo="{{todo}}"
                                  mytabledata="{{tododata}}"></todocreate-view>
                 <todoupdate-view name="update"
                                  page={{selectedPage}}
                                  mytabledata="{{tododata}}"
+                                 todo="{{todo}}"
                                  clickedrowindex="{{rowindex}}"></todoupdate-view>
             </iron-pages>
 
@@ -45,14 +48,18 @@
                     type: Number,
                     notify: true,
                     observer: 'rowchanged'
+                },
+                todo: {
+                    type: Object,
+                    notify: true
                 }
+
             },
 
             ready: function() {
-                var temp = [{title: "abcd", content: "I am abcd"},
-                            {title: "Silva",content: "I am David Silva"},
-                            {title: "Gooner", content: "YNWA"}];
-                this.tododata = temp;
+                this.tododata = [{title: "abcd", content: "I am abcd"},
+                    {title: "Silva",content: "I am David Silva"},
+                    {title: "Gooner", content: "YNWA"}];
                 this.rowindex = 0;
             },
 
