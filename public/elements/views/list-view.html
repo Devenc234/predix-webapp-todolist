@@ -1,0 +1,102 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/px-card/px-card.html">
+<link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../../bower_components/marked-element/marked-element.html">
+<link rel="import" href="../../bower_components/px-data-table/px-data-table.html"/>
+<link rel="import" href="../../bower_components/iron-pages/iron-pages.html"/>
+<link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html"/>
+<link rel="import" href="./todocreate-view-styles.html"/>
+
+<dom-module id="list-view">
+    <template>
+        <style include="todocreate-view-styles"></style>
+
+        <px-data-table id="notesTable" table-data={{notesTableData}}
+                       language="en"
+                       sortable
+                       selectable
+                       single-select>
+        </px-data-table>
+
+        <px-card>
+            <button id="createButton"  on-click="createTodo" class="btn btn--primary">New</button>
+            <button id="updateButton" on-click="updateTodo" class="btn btn--primary">Edit</button>
+            <button id="deleteButton" on-click="deleteTodo" class="btn btn--primary">Delete</button>
+        </px-card>
+
+        <iron-ajax
+                id="fetchNotesTableData"
+                url="http://localhost:9000/api/notes"
+                handle-as = "json"
+                last-response = "{{notesTableData}}">
+        </iron-ajax>
+
+        <iron-ajax
+                id="deleteNoteData"
+                method="DELETE"
+                handle-as = "json">
+        </iron-ajax>
+
+    </template>
+    <script>
+        Polymer({
+            is: 'list-view',
+            properties: {
+                page:{
+                    type: String,
+                    notify: true,
+                    observer: '_pageChanged'
+                },
+                notesTableData:{
+                    type: Array,
+                },
+                todo: {
+                    type: Object,
+                    notify: true
+                }
+            },
+
+            ready: function() {
+                var updateButton = this.$.updateButton;
+                var createButton = this.$.createButton;
+                var deleteButton = this.$.deleteButton;
+                updateButton.classList.add("btn--disabled");
+                deleteButton.classList.add("btn--disabled");
+
+                this.$.notesTable.addEventListener("px-row-click", function(e) {
+                    var temp = {};
+                    temp.id = e.detail.row.row.id.value;
+                    temp.title = e.detail.row.row.title.value;
+                    temp.content = e.detail.row.row.content.value;
+                    this.todo = temp;
+                    if(e.detail.row._selected){
+                        createButton.classList.add("btn--disabled");
+                        updateButton.classList.remove("btn--disabled");
+                        deleteButton.classList.remove("btn--disabled");
+                    } else {
+                        updateButton.classList.add("btn--disabled");
+                        deleteButton.classList.add("btn--disabled");
+                        createButton.classList.remove("btn--disabled");
+                    }
+                }.bind(this));
+            }
+            ,createTodo: function (e) {
+                this.page = "mycreate";
+            }
+            ,updateTodo: function (e) {
+                this.page = "myupdate";
+                console.log("note id in listview:",this.todo);
+            },
+            _pageChanged: function () {
+                this.$.fetchNotesTableData.generateRequest();
+                console.log("page change from list view called.")
+            },
+            deleteTodo: function () {
+                this.$.deleteNoteData.url = "http://localhost:9000/api/notes/"+this.todo.id;
+                this.$.deleteNoteData.generateRequest();
+                this.page = "mylist"
+            }
+
+        });
+    </script>
+</dom-module>

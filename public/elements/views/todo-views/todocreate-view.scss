@@ -1,0 +1,31 @@
+// Settings
+ @import "../../../bower_components/px-colors-design/settings.colors";
+
+// Generic
+
+// Base
+@import '../../../bower_components/px-flexbox-design/base.flexbox';
+@import "../../../bower_components/px-headings-design/base.headings";
+@import "../../../bower_components/px-forms-design/base.forms";
+
+// Meta
+
+// Objects
+:host {
+  background: $gray16;
+  //background: white;
+}
+
+
+// create, update, delete todolist buttons
+$inuit-enable-btn--primary : true;
+$inuit-enable-btn--disabled : true;
+@import '../../../bower_components/px-buttons-design/objects.buttons';
+
+
+$inuit-enable-input--regular : true;
+@import '../../../bower_components/px-forms-design/base.forms';
+
+
+//$inuit-flexbox-namespace : true;
+@import '../../../bower_components/px-flexbox-design/base.flexbox';

@@ -1,0 +1,76 @@
+<link rel="import" href="../../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../../bower_components/px-card/px-card.html">
+<link rel="import" href="../../../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../../../bower_components/marked-element/marked-element.html">
+<link rel="import" href="../todocreate-view-styles.html"/>
+
+<dom-module id="todoupdate-view">
+    <template>
+        <style include="todocreate-view-styles"></style>
+
+        <div>
+            <h1 style="font-family:'Times New Roman'">Update the details of Todo</h1>
+        </div>
+
+        <div class="flex flex--col flex--left flex--middle">
+            <form ad="adddeafaultdata">
+                <label for="notetitle" class="">Title</label>
+                <input class="text-input input--small"
+                       style="color: black"
+                       id="notetitle" type="text" placeholder="Title of the note"
+                       value="{{todo.title::input}}"
+                >
+                <br>
+                <br>
+                <label for="notecontent" class="">Content</label>
+                <input class="text-input input--large"
+                       value="{{todo.content::input}}"
+                       style="color: black"
+                       id="notecontent" type="text" placeholder="Content of the note">
+                <br>
+                <br>
+                <div class="btn-group">
+                    <button class="btn btn--primary" id="notesubmitbutton" on-click="formsubmit">Update</button>
+                    <button class="btn" id="notecancelbutton" on-click="formcancel">Cancel</button>
+                </div>
+            </form>
+        </div>
+
+    </template>
+
+    <script>
+        Polymer({
+            is: 'todoupdate-view',
+            properties: {
+                page:{
+                    type: String,
+                    notify: true
+                },
+                mytabledata:{
+                    type: Object
+                },
+                clickedrowindex: {
+                    notify: true
+                },
+                todo: {
+                    type: Object,
+                    notify: true
+                }
+
+            },
+
+            formsubmit: function () {
+                // var temp = {};
+                // temp.title = this.$.notetitle.value;
+                // temp.content = this.$.notecontent.value;
+                console.log("rowindex:",this.todo);
+                this.splice('mytabledata', this.clickedrowindex, 1, this.todo);
+                this.page = "list";
+            },
+
+            formcancel: function () {
+                this.page = 'list';
+            }
+        });
+    </script>
+</dom-module>

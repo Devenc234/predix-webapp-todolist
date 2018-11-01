@@ -1,12 +1,12 @@
 // Settings
-@import "../../bower_components/px-colors-design/_settings.colors.scss";
+@import "../../../bower_components/px-colors-design/settings.colors";
 
 // Generic
 
 // Base
-@import '../../bower_components/px-flexbox-design/_base.flexbox.scss';
-@import "../../bower_components/px-headings-design/_base.headings.scss";
-@import "../../bower_components/px-forms-design/_base.forms.scss";
+@import '../../../bower_components/px-flexbox-design/base.flexbox';
+@import "../../../bower_components/px-headings-design/base.headings";
+@import "../../../bower_components/px-forms-design/base.forms";
 
 // Meta
 
@@ -38,5 +38,5 @@
 // Trumps
 $inuit-enable-paddings : true;
 $inuit-enable-paddings--huge : true;
-@import "../../bower_components/px-spacing-design/_trumps.spacing.scss";
-@import "../../bower_components/px-widths-responsive-design/_trumps.widths-responsive.scss";
+@import "../../../bower_components/px-spacing-design/trumps.spacing";
+@import "../../../bower_components/px-widths-responsive-design/trumps.widths-responsive";

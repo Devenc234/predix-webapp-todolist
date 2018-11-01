@@ -4,72 +4,74 @@
 <link rel="import" href="../../bower_components/marked-element/marked-element.html">
 <link rel="import" href="../../bower_components/px-data-table/px-data-table.html"/>
 <link rel="import" href="../../bower_components/iron-pages/iron-pages.html"/>
-<link rel="import" href="./todolist-view.html"/>
-<link rel="import" href="todocreate-view.html"/>
-<link rel="import" href="todolist-view-styles.html"/>
-<link rel="import" href="todoupdate-view.html"/>
+<link rel="import" href="todo-views/todolist-view.html"/>
+<link rel="import" href="todo-views/todocreate-view.html"/>
+<link rel="import" href="todo-views/todolist-view-styles.html"/>
+<link rel="import" href="todo-views/todoupdate-view.html"/>
+<link rel="import" href="list-view.html"/>
+<link rel="import" href="create-view.html"/>
+<link rel="import" href="update-view.html"/>
 
 <dom-module id="todomain-view">
     <template>
         <style include="todolist-view-styles"></style>
-
             <iron-pages selected="[[selectedPage]]" attr-for-selected="name">
-                <todolist-view name="list"
-                               page={{selectedPage}}
-                               mytabledata="{{tododata}}"
-                               todo="{{todo}}"
-                               clickedrowindex="{{rowindex}}"></todolist-view>
-                <todocreate-view name="create"
-                                 page={{selectedPage}}
-                                 todo="{{todo}}"
-                                 mytabledata="{{tododata}}"></todocreate-view>
-                <todoupdate-view name="update"
-                                 page={{selectedPage}}
-                                 mytabledata="{{tododata}}"
-                                 todo="{{todo}}"
-                                 clickedrowindex="{{rowindex}}"></todoupdate-view>
+                <!--<todolist-view name="list"-->
+                               <!--page={{selectedPage}}-->
+                               <!--mytabledata="{{tododata}}"-->
+                               <!--todo="{{todo}}"-->
+                               <!--clickedrowindex="{{rowindex}}"></todolist-view>-->
+                <!--<todocreate-view name="create"-->
+                                 <!--page={{selectedPage}}-->
+                                 <!--todo="{{todo}}"-->
+                                 <!--mytabledata="{{tododata}}"></todocreate-view>-->
+                <!--<todoupdate-view name="update"-->
+                                 <!--page={{selectedPage}}-->
+                                 <!--mytabledata="{{tododata}}"-->
+                                 <!--todo="{{todo}}"-->
+                                 <!--clickedrowindex="{{rowindex}}"></todoupdate-view>-->
+                <list-view name="mylist"
+                           page={{selectedPage}}
+                           todo={{selectedTodo}}
+                ></list-view>
+                <create-view name="mycreate"
+                             page={{selectedPage}}
+                ></create-view>
+                <update-view name="myupdate"
+                             page={{selectedPage}}
+                             todo={{selectedTodo}}
+                ></update-view>
             </iron-pages>
-
-
     </template>
+
     <script>
         Polymer({
             is: 'todomain-view',
             properties: {
                 selectedPage: {
                     type: String,
-                    value: "list"
+                    value: "mylist"
                 },
-                tododata:{
-                    type: Array, observer :'dataChanged',
-                    notify: true
-                },
-                rowindex: {
-                    type: Number,
-                    notify: true,
-                    observer: 'rowchanged'
-                },
-                todo: {
+                selectedTodo: {
                     type: Object,
-                    notify: true
+                    observer: 'dataChanged'
                 }
 
             },
 
             ready: function() {
-                this.tododata = [{title: "abcd", content: "I am abcd"},
-                    {title: "Silva",content: "I am David Silva"},
-                    {title: "Gooner", content: "YNWA"}];
-                this.rowindex = 0;
+                // this.tododata = [{title: "abcd", content: "I am abcd"},
+                //     {title: "Silva",content: "I am David Silva"},
+                //     {title: "Gooner", content: "YNWA"}];
+                // this.rowindex = 0;
             },
-
             dataChanged: function () {
-                console.log(JSON.stringify(this.tododata, undefined, 4));
+                console.log('main view:',this.selectedTodo);
             },
-
-            rowchanged: function(){
-                console.log('rowchanged',this.rowindex);
-            }
+            //
+            // rowchanged: function(){
+            //     console.log('rowchanged',this.rowindex);
+            // }
         });
     </script>
 </dom-module>
