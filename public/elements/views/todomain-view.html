@@ -4,10 +4,6 @@
 <link rel="import" href="../../bower_components/marked-element/marked-element.html">
 <link rel="import" href="../../bower_components/px-data-table/px-data-table.html"/>
 <link rel="import" href="../../bower_components/iron-pages/iron-pages.html"/>
-<link rel="import" href="todo-views/todolist-view.html"/>
-<link rel="import" href="todo-views/todocreate-view.html"/>
-<link rel="import" href="todo-views/todolist-view-styles.html"/>
-<link rel="import" href="todo-views/todoupdate-view.html"/>
 <link rel="import" href="list-view.html"/>
 <link rel="import" href="create-view.html"/>
 <link rel="import" href="update-view.html"/>
@@ -40,6 +36,7 @@
                 <update-view name="myupdate"
                              page={{selectedPage}}
                              todo={{selectedTodo}}
+                             on-update-view-update="fetchTodo"
                 ></update-view>
             </iron-pages>
     </template>
@@ -59,6 +56,9 @@
 
             },
 
+            fetchTodo () {
+
+            },
             ready: function() {
                 // this.tododata = [{title: "abcd", content: "I am abcd"},
                 //     {title: "Silva",content: "I am David Silva"},

@@ -5,11 +5,13 @@
 <link rel="import" href="../../bower_components/px-data-table/px-data-table.html"/>
 <link rel="import" href="../../bower_components/iron-pages/iron-pages.html"/>
 <link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html"/>
+<link rel="import" href="../../bower_components/px-modal/px-modal.html"/>
 <link rel="import" href="./todocreate-view-styles.html"/>
 
 <dom-module id="list-view">
     <template>
-        <style include="todocreate-view-styles"></style>
+        <style include="todocreate-view-styles">
+        </style>
 
         <px-data-table id="notesTable" table-data={{notesTableData}}
                        language="en"
@@ -21,7 +23,7 @@
         <px-card>
             <button id="createButton"  on-click="createTodo" class="btn btn--primary">New</button>
             <button id="updateButton" on-click="updateTodo" class="btn btn--primary">Edit</button>
-            <button id="deleteButton" on-click="deleteTodo" class="btn btn--primary">Delete</button>
+            <button id="deleteButton" on-click="deleteTodo" class="btn btn--tertiary">Delete</button>
         </px-card>
 
         <iron-ajax
@@ -53,6 +55,10 @@
                 todo: {
                     type: Object,
                     notify: true
+                },
+                trigger: {
+                    type: Boolean,
+                    value: true
                 }
             },
 
@@ -79,6 +85,16 @@
                         createButton.classList.remove("btn--disabled");
                     }
                 }.bind(this));
+
+                var modal = this.$.confirmModal;
+                modal.addEventListener('px-modal-rejected', function(e) {
+                    // ... handle reject action here ...
+                    console.log("reject was called");
+                });
+                modal.addEventListener('px-modal-accepted', function(e) {
+                    // ... handle accept action here ...
+                    console.log("accept was called");
+                });
             }
             ,createTodo: function (e) {
                 this.page = "mycreate";

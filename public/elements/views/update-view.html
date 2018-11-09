@@ -72,6 +72,11 @@
             formcancel: function () {
                 this.todo = {};
                 this.page = 'mylist';
+            },
+            _handleAjaxPutResponse (data) {
+                var updatedTodo = data.detail.response;
+                this.fire('update-view-update');
+
             }
         });
     </script>
