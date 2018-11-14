@@ -60,14 +60,14 @@
                 this.$.notecontent.value = "";
                 this.$.AjaxPost.body = { "title": temp.title, "content": temp.content };
                 this.$.AjaxPost.generateRequest();
-                this.page = "mylist";
+
             },
 
             formcancel: function () {
                 this.page = 'mylist';
             },
             _handleAjaxPostResponse: function () {
-                
+                this.page = "mylist";
             },
             _handleAjaxPostError: function () {
                 

@@ -1,11 +1,15 @@
 // Settings
+//noinspection CssUnknownTarget
 @import "px-colors-design/_settings.colors.scss";
 
 // Generic
 
 // Base
+//noinspection CssUnknownTarget
 @import 'px-flexbox-design/_base.flexbox.scss';
+//noinspection CssUnknownTarget
 @import "px-headings-design/_base.headings.scss";
+//noinspection CssUnknownTarget
 @import "px-forms-design/_base.forms.scss";
 
 // Meta
@@ -38,5 +42,7 @@
 // Trumps
 $inuit-enable-paddings : true;
 $inuit-enable-paddings--huge : true;
+//noinspection CssUnknownTarget
 @import "px-spacing-design/_trumps.spacing.scss";
+//noinspection CssUnknownTarget
 @import "px-widths-responsive-design/_trumps.widths-responsive.scss";

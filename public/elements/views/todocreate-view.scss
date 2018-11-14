@@ -1,35 +1,27 @@
 // Settings
- @import "px-colors-design/_settings.colors.scss";
+@import "px-colors-design/_settings.colors.scss";
+@import "px-helpers-design/_generic.helpers.scss";
 
 // Generic
 
 // Base
 @import 'px-flexbox-design/_base.flexbox.scss';
 @import "px-headings-design/_base.headings.scss";
+$inuit-enable-input--regular : true;
 @import "px-forms-design/_base.forms.scss";
 
 // Meta
 
 // Objects
-:host {
-  background: $gray16;
-  //background: white;
-}
-
-
 // create, update, delete todolist buttons
 $inuit-enable-btn--primary : true;
 $inuit-enable-btn--disabled : true;
 @import 'px-buttons-design/_objects.buttons.scss';
 
-
-$inuit-enable-input--regular : true;
-@import 'px-forms-design/_base.forms.scss';
-
-
-//$inuit-flexbox-namespace : true;
-@import 'px-flexbox-design/_base.flexbox.scss';
-
-px-data-table {
-  --px-data-table-cell-background-color--selected: $select-default;
+:host {
+    --px-data-table-cell-background-color--selected: $select-default;
+    --px-data-table-cell-text-color--selected: white;
 }
+
+
+

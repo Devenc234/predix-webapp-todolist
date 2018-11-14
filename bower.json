@@ -37,7 +37,7 @@
     "px-app-nav": "^2.1.1",
     "px-breadcrumbs": "^1.1.1",
     "px-app-helpers": "^2.1.0",
-    "px-modal": "^2.0.0",
+    "px-modal": "https://github.com/PredixDev/px-modal.git#^3.3.4",
     "px-theme": "~3.0.0",
     "px-dark-theme": "~2.0.0",
     "px-spacing-design": "^1.0.0",

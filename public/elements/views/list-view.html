@@ -23,20 +23,26 @@
         <px-card>
             <button id="createButton"  on-click="createTodo" class="btn btn--primary">New</button>
             <button id="updateButton" on-click="updateTodo" class="btn btn--primary">Edit</button>
-            <button id="deleteButton" on-click="deleteTodo" class="btn btn--tertiary">Delete</button>
+            <!--<button id="deleteButton" on-click="deleteTodo" class="btn btn&#45;&#45;tertiary">Delete</button>-->
+            <px-modal-trigger trigger='{{trigger}}'>
+                <button id="deleteButton" class='btn btn--tertiary'>Delete</button>
+            </px-modal-trigger>
         </px-card>
 
-        <iron-ajax
-                id="fetchNotesTableData"
-                url="http://localhost:9000/api/notes"
-                handle-as = "json"
-                last-response = "{{notesTableData}}">
-        </iron-ajax>
+        <px-modal
+                id="confirmModal"
+                header-text="Confirm delete"
+                body-text="Do you want to delete this record? The record will be deleted permanently."
+                accept-text="Permanently Delete Record"
+                reject-text="Cancel"
+                open-trigger="[[trigger]]">
+        </px-modal>
 
         <iron-ajax
                 id="deleteNoteData"
                 method="DELETE"
-                handle-as = "json">
+                handle-as = "json"
+                on-response="handleResponseDeleteNoteData">
         </iron-ajax>
 
     </template>
@@ -51,14 +57,14 @@
                 },
                 notesTableData:{
                     type: Array,
+                    notify: true
                 },
                 todo: {
                     type: Object,
                     notify: true
                 },
-                trigger: {
-                    type: Boolean,
-                    value: true
+                trigger:{
+                    type: Boolean
                 }
             },
 
@@ -87,30 +93,27 @@
                 }.bind(this));
 
                 var modal = this.$.confirmModal;
+                var del = this.$.deleteNoteData;
                 modal.addEventListener('px-modal-rejected', function(e) {
                     // ... handle reject action here ...
-                    console.log("reject was called");
+                    // nothing to be done
                 });
                 modal.addEventListener('px-modal-accepted', function(e) {
                     // ... handle accept action here ...
-                    console.log("accept was called");
+                    console.log("todo",e);
+                    del.url = "http://localhost:9000/api/notes/"+this.todo.id;
+                    del.generateRequest();
                 });
+
             }
             ,createTodo: function (e) {
                 this.page = "mycreate";
             }
             ,updateTodo: function (e) {
                 this.page = "myupdate";
-                console.log("note id in listview:",this.todo);
             },
-            _pageChanged: function () {
-                this.$.fetchNotesTableData.generateRequest();
-                console.log("page change from list view called.")
-            },
-            deleteTodo: function () {
-                this.$.deleteNoteData.url = "http://localhost:9000/api/notes/"+this.todo.id;
-                this.$.deleteNoteData.generateRequest();
-                this.page = "mylist"
+            handleResponseDeleteNoteData: function () {
+                this.page = "mylist";
             }
 
         });

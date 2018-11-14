@@ -38,8 +38,7 @@
                 id="updateNoteData"
                 content-type="application/json"
                 handle-as="json"
-                on-response="_handleAjaxPutResponse"
-                on-error="_handleAjaxPutError">
+                on-response="handleResponseUpdateNoteData">
         </iron-ajax>
 
     </template>
@@ -65,6 +64,10 @@
                 console.log("note id in update:",this.$.updateNoteData.url);
                 this.$.updateNoteData.body = { "title": this.todo.title, "content": this.todo.content };
                 this.$.updateNoteData.generateRequest();
+
+            },
+
+            handleResponseUpdateNoteData: function(){
                 this.todo = {};
                 this.page = "mylist";
             },
@@ -72,11 +75,6 @@
             formcancel: function () {
                 this.todo = {};
                 this.page = 'mylist';
-            },
-            _handleAjaxPutResponse (data) {
-                var updatedTodo = data.detail.response;
-                this.fire('update-view-update');
-
             }
         });
     </script>

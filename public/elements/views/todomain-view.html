@@ -7,38 +7,35 @@
 <link rel="import" href="list-view.html"/>
 <link rel="import" href="create-view.html"/>
 <link rel="import" href="update-view.html"/>
+<link rel="import" href="todocreate-view-styles.html"/>
 
 <dom-module id="todomain-view">
     <template>
-        <style include="todolist-view-styles"></style>
-            <iron-pages selected="[[selectedPage]]" attr-for-selected="name">
-                <!--<todolist-view name="list"-->
-                               <!--page={{selectedPage}}-->
-                               <!--mytabledata="{{tododata}}"-->
-                               <!--todo="{{todo}}"-->
-                               <!--clickedrowindex="{{rowindex}}"></todolist-view>-->
-                <!--<todocreate-view name="create"-->
-                                 <!--page={{selectedPage}}-->
-                                 <!--todo="{{todo}}"-->
-                                 <!--mytabledata="{{tododata}}"></todocreate-view>-->
-                <!--<todoupdate-view name="update"-->
-                                 <!--page={{selectedPage}}-->
-                                 <!--mytabledata="{{tododata}}"-->
-                                 <!--todo="{{todo}}"-->
-                                 <!--clickedrowindex="{{rowindex}}"></todoupdate-view>-->
-                <list-view name="mylist"
-                           page={{selectedPage}}
-                           todo={{selectedTodo}}
-                ></list-view>
-                <create-view name="mycreate"
-                             page={{selectedPage}}
-                ></create-view>
-                <update-view name="myupdate"
-                             page={{selectedPage}}
-                             todo={{selectedTodo}}
-                             on-update-view-update="fetchTodo"
-                ></update-view>
-            </iron-pages>
+        <style include="todocreate-view-styles">
+        </style>
+
+        <iron-pages selected="[[selectedPage]]" attr-for-selected="name">
+            <list-view name="mylist"
+                       page={{selectedPage}}
+                       todo={{selectedTodo}}
+            notes-table-data="{{notesTableData}}">
+            </list-view>
+            <create-view name="mycreate"
+                         page={{selectedPage}}>
+            </create-view>
+            <update-view name="myupdate"
+                         page={{selectedPage}}
+                         todo={{selectedTodo}}>
+            </update-view>
+        </iron-pages>
+
+        <iron-ajax
+                id="fetchNotesTableData"
+                url="http://localhost:9000/api/notes"
+                handle-as = "json"
+                last-response = "{{notesTableData}}">
+        </iron-ajax>
+
     </template>
 
     <script>
@@ -47,31 +44,29 @@
             properties: {
                 selectedPage: {
                     type: String,
-                    value: "mylist"
+                    value: "mylist",
+                    observer: '_selectedPageChanged'
                 },
                 selectedTodo: {
-                    type: Object,
-                    observer: 'dataChanged'
+                    type: Object
+                },
+                notesTableData:{
+                    type: Array,
+                    notify: true
                 }
-
             },
 
-            fetchTodo () {
-
-            },
             ready: function() {
-                // this.tododata = [{title: "abcd", content: "I am abcd"},
-                //     {title: "Silva",content: "I am David Silva"},
-                //     {title: "Gooner", content: "YNWA"}];
-                // this.rowindex = 0;
+                this.$.fetchNotesTableData.generateRequest();
+                console.log("todomain-view:ready()");
+                console.log("data:",this.notesTableData);
             },
-            dataChanged: function () {
-                console.log('main view:',this.selectedTodo);
-            },
-            //
-            // rowchanged: function(){
-            //     console.log('rowchanged',this.rowindex);
-            // }
+            _selectedPageChanged: function () {
+                this.$.fetchNotesTableData.generateRequest();
+                console.log("todomain-view:_selectedPageChanged()");
+                console.log("data:",this.notesTableData);
+            }
+
         });
     </script>
 </dom-module>
